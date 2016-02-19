@@ -16,7 +16,36 @@
                         //echo $row->role;
                         
 			}  
-			
+			vangular.module('HabitatApp', [])
+        .controller('HabitatCtrl', function ($scope, $http) {
+            $scope.habitatlist=[];             
+            $http({
+                method: 'POST',
+                url: '/CIDB/index.php/users/GetUsers'
+              }).then(function successCallback(response) {
+                        $scope.habitatlist=angular.fromJson(response.data.habitat_user_list);
+                  // this callback will be called asynchronously
+                  // when the response is available
+                }, function errorCallback(response) {
+                  // called asynchronously if an error occurs
+                  // or server returns response with an error status.
+             });   
+
+           })
+
+     
+            .controller('HabitatUserCtrl', function ($scope, $http){
+                $scope.habitatuserinfolist = [];       
+                $http({
+                    method: 'POST',
+                    url: '/CIDB/index.php/users/GetUsersInfo'                
+                    }).then(function successCallback(response){
+                       $scope.habitatuserinfolist = angular.fromJson(response.data.habitat_user_info_list); 
+                    }, function errorCallback(response){
+                     // called asynchronously if an error occurs
+                      // or server returns response with an error status.
+                });            
+            });  
 			
 =head3 _get_table_colspec
 
