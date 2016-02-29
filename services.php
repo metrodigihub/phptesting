@@ -59,12 +59,12 @@
                 
 	</head>
     <body ng-app="HabitatApp">
-        <h2 align="center" style="color: blue">Habitat ePub Automation Tracking System</h2>
+        <h2 align="center" style="color: blue"></h2>
                   
      <section>
          <br>
         <ul class="tabs">
-          <li><a href="#tab1">HABITAT</a></li>
+          <li><a href="#tab1"></a></li>
           <li><a href="#tab2">USERINFO</a></li>
           <li><a href="#tab3">ABOUT</a></li>
         </ul>
@@ -79,26 +79,7 @@
             
         <script>
  
-//        angular.module('HabitatApp', [])
-//            .controller('HabitatCtrl', function ($scope, $http, $location) {
-//                $scope.habitatlist=[];               
-//                // $scope.myUrl = $location.absUrl();
-//                $http({
-//                    method: 'POST',
-//                    url: '/CIDB/index.php/users/GetUsers'
-//                  }).then(function successCallback(response) {
-//                        
-//                            $scope.habitatlist=angular.fromJson(response.data.habitat_user_list);
-//                       
-//                      // this callback will be called asynchronously
-//                      // when the response is available
-//                    }, function errorCallback(response) {
-//                      // called asynchronously if an error occurs
-//                      // or server returns response with an error status.
-//                 });   
-//
-//            });
-
+//      
 
         </script>
 	</body>
