@@ -24,6 +24,25 @@
         <![endif]-->
         
   
+        <?php echo link_tag('assets/css/datatable/jquery.dataTables.min.css')?>
+        <?php echo link_tag('assets/css/tabs.css')?>
+                
+        <!--[if IE]>
+        <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+        
+  
+        <script>
+            $(function(){
+                $('ul.tabs li:first').addClass('active');
+                $('.block article').hide();
+                $('.block article:first').show();
+                $('ul.tabs li').on('click',function(){
+                $('ul.tabs li').removeClass('active');
+                $(this).addClass('active');
+                $('.block article').hide();
+                var activeTab = $(this).find('a').attr('href');
+                $(activeT
         <script>
             $(function(){
                 $('ul.tabs li:first').addClass('active');
