@@ -45,7 +45,7 @@
                 
 	</head>
     <body ng-app="HabitatApp">
-        <h2 align="center" style="color: blue">Habitat ePub Automation Tracking System</h2>
+        <h2 align="center" style="color: blue">Tracking System</h2>
                   
      <section>
          <br>
@@ -75,53 +75,7 @@
                           </tr>
                       </thead>
                         <tbody>                     
-                         
-                            <tr style="font-size:10pt;" ng-repeat="habitat in habitatlist">
-                                <td>
-                                    {{ habitat.id }}
-                                </td>
-                                <td>
-                                    {{ habitat.isno }}
-                                </td>
-                                  <td>
-                                    {{ habitat.isbn }}
-                                </td>
-                                <td>
-                                    {{ habitat.stage }}
-                                </td>
-                                  <td>
-                                    {{ habitat.isbnfolder }}
-                                </td>
-                                <td>
-                                    {{ habitat.tocexcel }}
-                                </td>
-                                  <td>
-                                    {{ habitat.eisbn }}
-                                </td>
-                                <td>
-                                    {{ habitat.booktitle }}
-                                </td> 
-                                <td>
-                                    {{ habitat.last_accessed }}
-                                </td>
-                            </tr>                      
-                      </tbody>
-                    
-                </table>
-                 </div>                  
-            </article>
-
-            <article id="tab2">
-                <br>
-                <br>
-              <div ng-controller="HabitatUserCtrl">                   
-               <table id="tablehabitatuserinfo" align="center" class="display">
-                      <thead>
-                          <tr>
-                              <th>Id</th>
-                              <th>ISNO</th>
-                              <th>ISBN</th>
-                              <th>DateTime</th>                              
+                         e</th>                              
                           </tr>
                       </thead>
                         <tbody>   
