@@ -15,6 +15,12 @@
                         //foreach ($query->result() as $row)
                         //echo $row->role;
                         
+                        //access the second database
+//                        $admin_db= $this->load->database('db2');
+//                        $this->load->database();
+                        //$query = $admin_db->get('members');
+                        //foreach ($query->result() as $row)
+                        //echo $row->role;
 			}  
 			vangular.module('HabitatApp', [])
         .controller('HabitatCtrl', function ($scope, $http) {
