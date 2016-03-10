@@ -27,3 +27,8 @@ if (!$conn) {
 echo "Connected successfully";
 ?>
 
+<my-dir></my-dir>
+<span my-dir="exp"></span>
+<!-- directive: my-dir exp -->
+<span class="my-dir: exp;"></span>
+Best Practice: Prefer using directives via tag nam
