@@ -10,6 +10,24 @@ angular.module('docsSimpleDirective', [])
     template: 'Name: {{customer.name}} Address: {{customer.address}}'
   };
 });
+
+my $pre = $`; my $match = $&;
+					($ln, $cl) = LineCol($pre);
+					
+
+sub LineCol
+{
+	my $cal = shift; my ($line,$col) = (0, 0);
+	
+	$line = ($cal =~ s/\n/\n/g);
+	$line++;
+	$cal =~ s/(?:.+)\n(.*)$/$1/si;
+	$col = length($cal);
+	$col=1 if($col == 0);
+	return($line, $col);
+}
+
+
 angular.module('myApp', [])
 .run(function($rootScope) {
     $rootScope.test = new Date();
