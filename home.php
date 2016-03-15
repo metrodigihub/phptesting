@@ -315,6 +315,45 @@
         <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
         
+        sub _package_zip {
+	my $folder = shift;
+
+	find (
+			sub { 
+				unlink $File::Find::name if ($File::Find::name =~ m{(?:\.db|\_err\.html|\.tmp|\.bak)$}i);
+			}, "$folder" 
+		);
+
+	opendir(DIR, "$folder");
+	my @xmls = grep {!/^(?:\s|\.)*$/} readdir(DIR);
+	closedir DIR;
+	
+	my $cnt = _open_file("$folder//".basename($folder).".xml");
+	if($cnt =~ m{<journal-id(?: [^>]+)? journal-id-type="title-id"[^>]*>([^><]*)</journal-id>}i) {
+		$atypeon_folder = "/$1";
+	}
+		
+	my $zip = Archive::Zip->new();
+	
+	foreach my $tm (@xmls) {
+		if(-f "$folder\\$tm") {
+			$zip->addTree($folder,"",sub { /$tm$/i });
+		}
+		else {
+			$zip->addTree("$folder\\$tm","$tm");
+		}
+	}
+	$zip->writeToFileNamed(qq($folder.zip));
+	
+	if(-f "$folder.zip") {
+		return 1;
+	}
+	else {
+		return 0;
+	}
+}
+  
+  
   
         <script>
             $(function(){
