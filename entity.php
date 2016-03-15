@@ -11,7 +11,7 @@ angular.module('docsSimpleDirective', [])
   };
 });
 
-my $pre = $`; my $match = $&;
+my $pre = $`; 
 					($ln, $cl) = LineCol($pre);
 					
 
