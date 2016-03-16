@@ -11,21 +11,6 @@ angular.module('docsSimpleDirective', [])
   };
 });
 
-my $pre = $`; 
-					($ln, $cl) = LineCol($pre);
-					
-
-sub LineCol
-{
-	my $cal = shift; my ($line,$col) = (0, 0);
-	
-	$line = ($cal =~ s/\n/\n/g);
-	$line++;
-	$cal =~ s/(?:.+)\n(.*)$/$1/si;
-	$col = length($cal);
-	$col=1 if($col == 0);
-	return($line, $col);
-}
 
 
 angular.module('myApp', [])
