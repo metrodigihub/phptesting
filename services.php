@@ -8,6 +8,8 @@
                      
         <!--<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>-->         
         <!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>-->
+        <!--<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>-->         
+        <!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>-->
      
         <script type="text/javascript" src="<?php echo base_url();?>assets/js/jquery.min.js" ></script>
         <script type="text/javascript" src="<?php echo base_url();?>assets/js/angular.min.js" ></script>
