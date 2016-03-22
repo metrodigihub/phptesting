@@ -56,7 +56,7 @@
          <br>
         <ul class="tabs">
           <li><a href="#tab1"></a></li>
-          <li><a href="#tab2">USERINFO</a></li>
+          <li><a href="#tab2">USERINFORMATION</a></li>
           <li><a href="#tab3">ABOUT</a></li>
         </ul>
         
