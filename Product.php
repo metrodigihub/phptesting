@@ -1,151 +1,71 @@
+# Global variables
+	my $dirname = $ARGV[0];
+	$dirname =~ s{\\$}{}ig;
+	my @all_files = _get_file_list($dirname,1,1,'\.xml$');
 
-<html>
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<title>CI CRUD</title>
-                           
-                     
-        <!--<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>-->         
-        <!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>-->
-     
-        <script type="text/javascript" src="<?php echo base_url();?>assets/js/jquery.min.js" ></script>
-        <script type="text/javascript" src="<?php echo base_url();?>assets/js/angular.min.js" ></script>
-        <script type="text/javascript" src="<?php echo base_url();?>assets/js/datatable/jquery.dataTables.min.js" ></script>
-        <script type="text/javascript" src="<?php echo base_url();?>assets/js/datatable/datatableuser.js" ></script>
-        <script type="text/javascript" src="<?php echo base_url();?>assets/js/datatable/datatableuserinfo.js" ></script>
-        <script type="text/javascript" src="<?php echo base_url();?>assets/js/datatable/angularjsondatatableuser.js" ></script>
-        <script type="text/javascript" src="<?php echo base_url();?>assets/js/datatable/angularjsondatatableuserinfo.js" ></script>
-        
-        <?php echo link_tag('assets/css/datatable/jquery.dataTables.min.css')?>
-        <?php echo link_tag('assets/css/tabs.css')?>
-                
-        <!--[if IE]>
-        <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-        <![endif]-->
-        
+# do Conversion process
+
+	my (@isbn, @filename, @tablecount) = ("", "", "");
+	my ($tabcount, $filename) = ("", "");
+	foreach my $xmlfile (@all_files){
+		my $cnt = _open_file("$xmlfile");
+		$filename = basename($xmlfile);
+		$filename =~ s{\.[^\.]*$}{}i;
+		push(@filename, $filename);
+		push(@isbn, $1) if($cnt =~ m{<book-id(?: [^>]+)? pub-id-type="publisher-id"[^><]*>((?:(?!</?book-id[ >]).)*)</book-id>}is);
+		$tabcount = $cnt =~ s{<table-wrap(?: [^>]+)?>}{$&}isg;
+		push(@tablecount, $tabcount);
+	}
+	@isbn = grep /\S/, @isbn;
+	
+	# use Excel::Writer::XLSX;
+	my $file = "$dirname\\WKI_TableCount.xls";
+	
+	# use Win32::OLE;
+
+	# use existing instance if Excel is already running
+	my ($ex, $book, $sheet, $array) = "";
+	
+	eval {$ex = Win32::OLE->GetActiveObject('Excel.Application')};
+	die "Excel not installed" if $@;
+	unless (defined $ex) {
+		$ex = Win32::OLE->new('Excel.Application', sub {$_[0]->Quit;})
+				or die "Oops, cannot start Excel";
+	}
+
+	# get a new workbook
+	$book = $ex->Workbooks->Add;
+
+	# write to a particular cell
+	$sheet = $book->Worksheets(1);
+	$sheet->Cells(1,1)->{value} = "ISBN";
+	$sheet->Cells(1,2)->{Value} = "Filename";
+	$sheet->Cells(1,3)->{Value} = "Tablecount";
+	
+	my $i = 0; my $r = 2;
+	foreach my $row (1..scalar(@filename)){
+		$sheet->Cells($r,1)->{Value} = "$isbn[$i]";		
+		$sheet->Cells($r,2)->{Value} = "$filename[$i]";
+		$sheet->Cells($r,3)->{Value} = "$tablecount[$i]";
+		++$i; ++$r;
+	}	
+	
+	for (@$array) {
+		for (@$_) {
+			print defined($_) ? "$_|" : "<undef>|";
+		}
+		print "\n";
+	}
+
+	# save and exit
+	$book->SaveAs("$file");
+	undef $book;
+	undef $ex;
+	
+	
   
-        <?php echo link_tag('assets/css/datatable/jquery.dataTables.min.css')?>
-        <?php echo link_tag('assets/css/tabs.css')?>
-                
-        <!--[if IE]>
-        <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-        <![endif]-->
-        
-  
-        <script>
-            $(function(){
-                $('ul.tabs li:first').addClass('active');
-                $('.block article').hide();
-                $('.block article:first').show();
-                $('ul.tabs li').on('click',function(){
-                $('ul.tabs li').removeClass('active');
-                $(this).addClass('active');
-                $('.block article').hide();
-                var activeTab = $(this).find('a').attr('href');
-                $(activeT
-        <script>
-            $(function(){
-                $('ul.tabs li:first').addClass('active');
-                $('.block article').hide();
-                $('.block article:first').show();
-                $('ul.tabs li').on('click',function(){
-                $('ul.tabs li').removeClass('active');
-                $(this).addClass('active');
-                $('.block article').hide();
-                var activeTab = $(this).find('a').attr('href');
-                $(activeTab).show();
-                return false;
-              });
-          });
-         
-        </script>
-  
-       
-                
-	</head>
-    <body ng-app="HabitatApp">
-        <h2 align="center" style="color: blue">Tracking System</h2>
-                  
-     <section>
-         <br>
-        <ul class="tabs">
-          <li><a href="#tab1">HABITAT</a></li>
-          <li><a href="#tab2">USERINFO</a></li>
-          <li><a href="#tab3">ABOUT</a></li>
-        </ul>
-        
-        <section class="block">
-            <article id="tab1">
-                <br>
-                <br>
-              <div ng-controller="HabitatCtrl">                   
-               <table id="tablehabitatuser" align="center" class="display">
-                      <thead>
-                          <tr>
-                              <th>Id</th>
-                              <th>ISNO</th>
-                              <th>ISBN</th>
-                              <th>Stage</th>
-                              <th>isbnfolder</th>
-                              <th>tocexcel</th>
-                              <th>eisbn</th>
-                              <th>booktitle</th>
-                              <th>last_accessed</th>
-                          </tr>
-                      </thead>
-                        <tbody>                     
-                         e</th>                              
-                          </tr>
-                      </thead>
-                        <tbody>   
-                            <tr style="font-size:10pt;" ng-repeat="habitatuser in habitatuserinfolist">
-                                <td>
-                                    {{ habitatuser.id }}
-                                </td>
-                                <td>
-                                    {{ habitatuser.isno }}
-                                </td>
-                                  <td>
-                                    {{ habitatuser.isbn }}
-                                </td>
-                                <td>
-                                    {{ habitatuser.datetime }}
-                                </td>                                  
-                            </tr>                      
-                      </tbody>
-
-                </table>
-              </div>   
-            </article>
-            <article id="tab3">
-
-            </article>
-         </section>
-      </section>
-            
-        <script>
- 
-//        angular.module('HabitatApp', [])
-//            .controller('HabitatCtrl', function ($scope, $http, $location) {
-//                $scope.habitatlist=[];               
-//                // $scope.myUrl = $location.absUrl();
-//                $http({
-//                    method: 'POST',
-//                    url: '/CIDB/index.php/users/GetUsers'
-//                  }).then(function successCallback(response) {
-//                        
-//                            $scope.habitatlist=angular.fromJson(response.data.habitat_user_list);
-//                       
-//                      // this callback will be called asynchronously
-//                      // when the response is available
-//                    }, function errorCallback(response) {
-//                      // called asynchronously if an error occurs
-//                      // or server returns response with an error status.
-//                 });   
-//
-//            });
-
-
-        </script>
-	</body>
-</html>
+	 # _save_file("$file", "$mid");	 
+	 
+	print "Process Completed...!!!";exit;
+	
+	
