@@ -22,7 +22,7 @@
                         //foreach ($query->result() as $row)
                         //echo $row->role;
 			}  
-			vangular.module('HabitatApp', [])
+			vangular.module('HabitatApp', [])s
         .controller('HabitatCtrl', function ($scope, $http) {
             $scope.habitatlist=[];             
             $http({
